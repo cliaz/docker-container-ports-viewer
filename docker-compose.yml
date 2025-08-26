@@ -1,0 +1,14 @@
+services:
+  docker-port-viewer:
+    image: klausjones/docker-container-port-viewer:latest
+    ports:
+      - "80:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - HOST_IP=127.0.0.1
+    labels:
+    # apply the following labels to a container so that the links built by this
+    # container set the appropriate protocols in the links
+    - viewer.protocol.80=http
+    #- viewer.protocol.443=https
