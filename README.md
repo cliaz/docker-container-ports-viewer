@@ -20,7 +20,7 @@ Add labels to your container in `docker-compose.yml`:
 ```yaml
 labels:
     - "viewer.protocol=http"
-	- "viewer.port=8080"
+    - "viewer.port=8080"
 ```
 
 Supported protocols: `http`, `https`.
