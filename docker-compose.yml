@@ -2,13 +2,38 @@ services:
   docker-port-viewer:
     image: klausjones/docker-container-port-viewer:latest
     ports:
-      - "80:8080"
+      - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
-      - HOST_IP=127.0.0.1
+      - HOST_IP=198.18.3.15   # aka docker.example.com. Used as url base for generating container links
+      - PORTAINER_PORT=9443   # portainer port, for generating Stack links 
+
     labels:
-    # apply the following labels to a container so that the links built by this
-    # container set the appropriate protocols in the links
-    - viewer.protocol.80=http
-    #- viewer.protocol.443=https
+      # ----- Viewer Link Configuration -----
+      # The following labels control how docker-container-port-viewer builds
+      # clickable links for this container.
+
+      # viewer.protocol.<container_port>=http|https
+      #   Define the protocol (scheme) for a given published container port.
+      #   Example: viewer.protocol.8080=http → generates http://HOST_IP:8080
+      #            viewer.protocol.443=https → generates https://HOST_IP:443
+      - viewer.protocol.8080=http
+      #- viewer.protocol.443=https
+
+      # viewer.baseurl=<hostname or full base URL>
+      #   Optional. Overrides the default HOST_IP when building links.
+      #   Example: viewer.baseurl=docker.example.com
+      #   → generates http(s)://docker.example.com:<container_port>
+      #   If you want to supply a full URL (e.g. https://myapp.example.com/app),
+      #   combine this with viewer.override_dynamic_port=true.
+      #- viewer.baseurl=docker.example.com      
+
+      # viewer.override_dynamic_port=true|false
+      #   Optional. Default: false.
+      #   - false → the container_port will still be appended
+      #             (e.g. https://baseurl:12345).
+      #   - true  → the link uses baseurl *as-is* with no port appended
+      #             (e.g. https://myapp.example.com/app).
+      #- viewer.override_dynamic_port=false
+
