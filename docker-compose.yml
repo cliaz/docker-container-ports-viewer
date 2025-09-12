@@ -6,7 +6,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
-      - HOST_IP=198.18.3.15   # aka docker.example.com. Used as url base for generating container links
+      - HOST_IP=198.18.3.15   # aka ldc01.sandpit.cba. Used as url base for generating container links
       - PORTAINER_PORT=9443   # portainer port, for generating Stack links 
 
     labels:
@@ -27,7 +27,7 @@ services:
       #   → generates http(s)://docker.example.com:<container_port>
       #   If you want to supply a full URL (e.g. https://myapp.example.com/app),
       #   combine this with viewer.override_dynamic_port=true.
-      #- viewer.baseurl=docker.example.com      
+      - viewer.baseurl=ldc01.sandpit.cba      
 
       # viewer.override_dynamic_port=true|false
       #   Optional. Default: false.
@@ -35,5 +35,5 @@ services:
       #             (e.g. https://baseurl:12345).
       #   - true  → the link uses baseurl *as-is* with no port appended
       #             (e.g. https://myapp.example.com/app).
-      #- viewer.override_dynamic_port=false
+      - viewer.override_dynamic_port=false
 
